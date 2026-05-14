@@ -1,8 +1,20 @@
 # ================================
-# Embedded Python runtime
+# Embedded Python runtime (standalone, use standard Python instead)
 # ================================
 WPy64-312101/
-bin/
+
+# ================================
+# Binary tools - use system-wide installations
+# ================================
+bin/*.exe
+bin/*.dll
+bin/sox-14.4.2-win32/
+bin/cert.pem
+bin/key.pem
+
+# ================================
+# Pre-installed Python packages (reinstall via pip)
+# ================================
 pkgs/
 
 # ================================

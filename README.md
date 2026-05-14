@@ -16,22 +16,54 @@
 
 ```
 QwenTTS_Fn2/
-├── generate_audio.py           # TTS 音频生成脚本（主入口）
-├── models/                     # Qwen3-TTS 模型文件（需单独下载）
-│   ├── Qwen3-TTS-12Hz-0.6B-CustomVoice/
-│   ├── Qwen3-TTS-12Hz-0.6B-Base/
-│   └── ...
-├── Qwen3-TTS/                 # Qwen3-TTS 官方仓库（含 qwen_tts SDK）
-├── WPy64-312101/              # 嵌入式 Python 运行时
-└── bin/, pkgs/                # 运行时依赖
+├── generate_audio.py           # TTS 音频生成脚本（命令行/API）
+├── integrated_app.py          # Gradio WebUI 集成界面
+├── clean_launch.py            # WebUI 启动器（自动打开浏览器）
+├── make_cert.py              # SSL 证书生成工具
+├── bin/                      # 音频处理工具
+│   ├── ffmpeg.exe           # FFmpeg（需从系统 PATH 或自行下载）
+│   ├── ffplay.exe            # FFplay
+│   ├── ffprobe.exe           # FFprobe
+│   └── sox.exe              # SoX 音频处理
+├── models/                   # Qwen3-TTS 模型文件（需单独下载）
+├── Qwen3-TTS/              # Qwen3-TTS 官方 SDK（含训练/推理代码）
+├── WPy64-312101/           # 嵌入式 Python 运行环境（可选，也可使用标准 Python）
+├── pkgs/                    # 预装 Python 包（重新 pip install 即可）
+└── README.md
 ```
 
 ## 环境要求
 
-- **Python**: 3.10+
+- **Python**: 3.10+（标准 Python 环境即可，不需要 WPy64-312101）
 - **GPU**: NVIDIA GPU（推荐 RTX 3060 以上）
 - **系统**: Windows / Linux
 - **磁盘空间**: 10GB+（用于模型文件）
+
+### 环境准备
+
+#### 方式一：使用现有 Python（推荐）
+
+如果你的系统已经有 Python 3.10+，可以直接使用，不需要 WPy64-312101：
+
+```bash
+# 安装依赖
+pip install torch soundfile numpy transformers accelerate huggingface_hub
+
+# 如果需要 WebUI 界面
+pip install gradio
+```
+
+#### 方式二：使用嵌入式 Python（WPy64-312101）
+
+如果系统没有 Python，可以使用附带的嵌入式 Python（位于 WPy64-312101/ 目录）。运行前需将其加入 PATH。
+
+#### FFmpeg 准备
+
+本项目的 `generate_audio.py` 本身不依赖 ffmpeg（使用 Python 的 soundfile 库处理音频），但如果需要视频处理或格式转换，可从以下地址获取 ffmpeg：
+
+- 官网：https://ffmpeg.org/download.html
+- Windows 一键包：https://www.ghesc.xyz/ffmpeg.html
+- 放入 `bin/` 目录或加入系统 PATH
 
 ## 模型下载
 
